@@ -1,0 +1,151 @@
+<app-header></app-header>
+
+<main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+  
+<section class="mb-8 sm:mb-12 relative group">
+    
+    <div #carouselContainer 
+         (scroll)="handleCarouselScroll($event)" 
+         (touchstart)="handleCarouselInteraction()"
+         class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar rounded-2xl sm:rounded-3xl shadow-md bg-gray-100 cursor-grab active:cursor-grabbing">
+      
+      @for (banner of banners; track banner.id) {
+        
+        <div class="snap-center shrink-0 w-full relative aspect-[16/9] sm:aspect-[21/9] md:aspect-[3/1] lg:aspect-[4/1] cursor-pointer overflow-hidden"
+             [routerLink]="banner.link ? [banner.link] : null"
+             (click)="handleCarouselInteraction()"> <img [src]="banner.imageUrl" 
+               [alt]="banner.alt" 
+               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]">
+          
+          <div class="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] pointer-events-none"></div>
+          
+        </div>
+
+      }
+
+    </div>
+
+    <div class="absolute bottom-3 sm:bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+      @for (banner of banners; track banner.id; let i = $index) {
+        <button (click)="goToSlide(i); handleCarouselInteraction()" 
+                class="h-2 rounded-full transition-all duration-300 shadow-sm focus:outline-none"
+                [ngClass]="currentSlideIndex === i ? 'w-6 bg-white' : 'w-2 bg-white/60 hover:bg-white/80'">
+        </button>
+      }
+    </div>
+    
+  </section>
+
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4 px-1">
+      <h2 class="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">Tiendas Oficiales</h2>
+    </div>
+    <div class="flex gap-3 sm:gap-4 overflow-x-auto pb-4 no-scrollbar snap-x">
+      @for (tienda of comercios; track tienda.id) {
+        <a [routerLink]="['/tienda', tienda.id]" class="flex-none w-20 sm:w-24 text-center group snap-start">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full border-2 border-transparent group-hover:border-vitrina-green p-0.5 sm:p-1 overflow-hidden bg-white shadow-sm transition-all group-hover:shadow-md group-hover:scale-105">
+            <img [src]="tienda.logo || 'https://via.placeholder.com/100'" class="w-full h-full rounded-full object-cover bg-gray-50">
+          </div>
+          <p class="text-[10px] sm:text-[11px] font-bold text-gray-600 mt-2 truncate px-1 group-hover:text-vitrina-green transition-colors">{{ tienda.name }}</p>
+        </a>
+      }
+    </div>
+  </section>
+
+  <section class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 mb-8 sticky top-4 z-10">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+      <div class="flex-1 flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar items-center snap-x">
+        <span class="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest mr-2 hidden md:block shrink-0">Explorar:</span>
+        
+        <button (click)="seleccionarCategoria('')" 
+                class="flex-none px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all snap-start"
+                [class.bg-vitrina-green]="categoriaActiva === ''"
+                [class.text-white]="categoriaActiva === ''"
+                [class.shadow-md]="categoriaActiva === ''"
+                [class.bg-gray-100]="categoriaActiva !== ''"
+                [class.text-gray-500]="categoriaActiva !== ''"
+                [class.hover:bg-gray-200]="categoriaActiva !== ''">
+          Destacados
+        </button>
+
+        @for (cat of categorias; track cat.id) {
+          <button (click)="seleccionarCategoria(cat.id)" 
+                  class="flex-none px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all snap-start"
+                  [class.bg-vitrina-green]="categoriaActiva === cat.id"
+                  [class.text-white]="categoriaActiva === cat.id"
+                  [class.shadow-md]="categoriaActiva === cat.id"
+                  [class.bg-gray-100]="categoriaActiva !== cat.id"
+                  [class.text-gray-500]="categoriaActiva !== cat.id"
+                  [class.hover:bg-gray-200]="categoriaActiva !== cat.id">
+            {{ cat.name }} 
+          </button>
+        }
+      </div>
+
+      <div class="shrink-0 flex items-center gap-2 bg-gray-50 p-1 rounded-xl border border-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-2 text-gray-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+        </svg>
+        <select (change)="cambiarOrden($event)" class="bg-transparent text-gray-600 text-xs sm:text-sm font-bold focus:ring-0 focus:outline-none block py-1.5 pr-2 cursor-pointer">
+          <option value="">Más Relevantes</option>
+          <option value="price">Menor precio</option>
+          <option value="-price">Mayor precio</option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="flex justify-between items-end mb-4 px-1">
+      <h2 class="text-xl sm:text-2xl font-black text-gray-800 tracking-tight">
+        @if (terminoBusqueda) { 
+          Resultados para <span class="text-vitrina-green">"{{terminoBusqueda}}"</span> 
+        } @else { 
+          Catálogo Disponible 
+        }
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5">
+      @for (prod of productosGlobales; track prod.id) {
+        <app-product-card [producto]="prod" (click)="abrirModal(prod)"></app-product-card>
+      } @empty {
+        <div class="col-span-full py-20 flex flex-col items-center justify-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mb-3 opacity-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <p class="font-bold text-center">No encontramos productos con esos filtros.</p>
+        </div>
+      }
+    </div>
+
+    @if (prevUrl || nextUrl) {
+      <div class="flex justify-center items-center gap-3 mt-10 mb-8">
+        <button [disabled]="!prevUrl" (click)="cambiarPagina(prevUrl)"
+                class="px-5 py-2.5 rounded-xl text-sm font-black transition-all shadow-sm flex items-center gap-1"
+                [class.bg-gray-100]="!prevUrl" [class.text-gray-300]="!prevUrl" [class.cursor-not-allowed]="!prevUrl"
+                [class.bg-vitrina-green]="prevUrl" [class.text-white]="prevUrl" [class.hover:bg-green-700]="prevUrl" [class.hover:scale-105]="prevUrl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+          Anterior
+        </button>
+        
+        <button [disabled]="!nextUrl" (click)="cambiarPagina(nextUrl)"
+                class="px-5 py-2.5 rounded-xl text-sm font-black transition-all shadow-sm flex items-center gap-1"
+                [class.bg-gray-100]="!nextUrl" [class.text-gray-300]="!nextUrl" [class.cursor-not-allowed]="!nextUrl"
+                [class.bg-vitrina-green]="nextUrl" [class.text-white]="nextUrl" [class.hover:bg-green-700]="nextUrl" [class.hover:scale-105]="nextUrl">
+          Siguiente
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </button>
+      </div>
+    }
+  </section>
+
+  @if (productoSeleccionado) {
+    <app-contact-modal 
+      [producto]="productoSeleccionado" 
+      (close)="cerrarModal()">
+    </app-contact-modal>
+  }
+</main>

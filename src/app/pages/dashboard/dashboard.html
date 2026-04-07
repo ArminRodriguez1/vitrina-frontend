@@ -1,0 +1,119 @@
+@if (isLoading) {
+  <div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="text-xl font-bold text-gray-500 animate-pulse">Cargando tu panel...</div>
+  </div>
+} @else if (error) {
+  <div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="bg-red-50 text-red-600 p-6 rounded-xl font-bold border border-red-200 shadow-sm">{{ error }}</div>
+  </div>
+} @else {
+  <div class="min-h-screen bg-gray-50 pb-12">
+    
+    <header class="bg-white border-b border-gray-200 px-6 py-5 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+      <div class="flex items-center gap-4">
+        <div class="bg-green-50 p-3 rounded-xl text-green-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-extrabold text-gray-800 tracking-tight">{{ dashboardData?.store_name }}</h1>
+          <p class="text-sm text-gray-500 font-medium">Panel de tu vitrina</p>
+        </div>
+      </div>
+      <button (click)="cerrarSesion()" class="text-sm font-bold text-gray-500 hover:text-red-500 transition-colors">
+        Cerrar Sesión
+      </button>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+
+      <h2 class="text-xs font-extrabold text-gray-400 tracking-widest uppercase mb-4">Este Mes</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <span class="text-4xl font-black text-gray-800">{{ dashboardData?.total_views }}</span>
+          <span class="text-sm font-medium text-gray-500 mt-1">Visitas</span>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+          <span class="text-4xl font-black text-gray-800">{{ dashboardData?.total_clicks }}</span>
+          <span class="text-sm font-medium text-gray-500 mt-1">Contactos</span>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="text-4xl font-black text-gray-800">{{ dashboardData?.products?.length || 0 }}</span>
+          <span class="text-sm font-medium text-gray-500 mt-1">Productos Activos</span>
+        </div>
+
+      </div>
+
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xs font-extrabold text-gray-400 tracking-widest uppercase">Mis Productos</h2>
+       <button disabled 
+        title="¡Próximamente!"
+        class="bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm flex items-center gap-1 transition-colors opacity-50 cursor-not-allowed">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+  </svg>
+  Agregar Producto (Pronto)
+</button>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+        <ul class="divide-y divide-gray-100">
+          
+          @for (prod of dashboardData?.products; track prod.id) {
+            <li class="p-4 sm:p-5 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
+                  <img [src]="prod.image || 'https://via.placeholder.com/150?text=Sin+Foto'" [alt]="prod.title" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="flex flex-col">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-bold text-gray-900 text-base sm:text-lg">{{ prod.title }}</h3>
+                    @if (prod.views_count > 10) {
+                      <span class="bg-orange-100 text-orange-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">Destacado</span>
+                    }
+                  </div>
+                  <p class="text-green-700 font-extrabold mt-1 sm:text-base text-sm">{{ prod.price | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
+                  
+                  @if (prod.is_active && prod.stock > 0) {
+                    <p class="text-xs font-medium text-green-600 mt-1">Disponible</p>
+                  } @else {
+                    <p class="text-xs font-medium text-red-500 mt-1">Agotado</p>
+                  }
+                </div>
+              </div>
+              
+              <div class="text-gray-300 pr-2 hidden sm:block">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </li>
+          } @empty {
+            <li class="p-10 text-center text-gray-500 font-medium">
+              No tienes productos registrados en tu vitrina.
+            </li>
+          }
+
+        </ul>
+      </div>
+
+    </main>
+  </div>
+}
