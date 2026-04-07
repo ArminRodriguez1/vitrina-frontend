@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
   // Asegúrate de que esta URL coincida con tu backend
-  private apiUrl = 'http://127.0.0.1:8000/api/v1';
+  private apiUrl = 'https://vitrina-backend.onrender.com/api/v1';
 
   constructor(private http: HttpClient) { }
 
