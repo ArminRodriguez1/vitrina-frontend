@@ -6,19 +6,16 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
 
-  // Si estamos en el servidor de Node, bloqueamos el acceso silenciosamente
   if (!isPlatformBrowser(platformId)) {
     return false;
   }
 
-  // Si estamos en el navegador, hacemos la comprobación real
   const token = localStorage.getItem('access_token');
 
   if (token) {
-    return true; // Adelante, pasa.
+    return true;
   }
 
-  // ¡Alto ahí! Sin token te vas al login.
   router.navigate(['/login']);
   return false;
 };
