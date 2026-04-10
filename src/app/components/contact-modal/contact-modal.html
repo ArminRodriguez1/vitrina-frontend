@@ -1,28 +1,26 @@
-<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center sm:p-4 animate-modal cursor-pointer" (click)="cerrar()">
+<div class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center sm:p-4 animate-modal cursor-pointer" (click)="cerrar()">
   
-  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-md overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh] sm:max-h-[85vh] cursor-default" (click)="$event.stopPropagation()">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-md overflow-y-auto sm:overflow-hidden shadow-2xl relative flex flex-col max-h-[100vh] sm:max-h-[85vh] cursor-default" (click)="$event.stopPropagation()">
 
-    <div class="w-full flex justify-center pt-3 pb-1 sm:hidden absolute top-0 z-20">
-      <div class="w-12 h-1.5 bg-white/50 backdrop-blur-md rounded-full"></div>
+    <div class="w-full flex justify-center pt-3 pb-1 sm:hidden absolute top-0 z-30">
+      <div class="w-12 h-1.5 bg-gray-400/60 rounded-full shadow-sm"></div>
     </div>
 
-    <button (click)="cerrar()" class="absolute top-4 right-4 sm:top-5 sm:right-5 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full p-2.5 text-white transition-colors z-20 shadow-md">
+    <button (click)="cerrar()" class="absolute top-4 right-4 sm:top-5 sm:right-5 bg-white/70 hover:bg-white backdrop-blur-md rounded-full p-2.5 text-gray-800 transition-all z-30 shadow-md border border-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
-    <div class="relative w-full h-40 sm:h-64 bg-gray-100 shrink-0">
-      <img [src]="producto?.image || 'https://via.placeholder.com/600x400?text=Sin+Imagen'"
-           [alt]="producto?.title"
-           class="w-full h-full object-cover">
-      
-      <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/20 to-transparent"></div>
-    </div>
+  <div class="relative h-[75vh] sm:h-64 w-full bg-gray-50 p-6 flex items-center justify-center shrink-0">
+  
+    <img [src]="producto.image" [alt]="producto.title" class="w-full h-full object-contain mix-blend-multiply rounded-xl drop-shadow-xl transition-transform duration-500 hover:scale-105">
+  
+  </div>
 
-    <div class="p-5 sm:p-6 overflow-y-auto flex-grow bg-white relative z-10 -mt-4 rounded-t-3xl sm:rounded-none sm:mt-0">
+   <div class="p-6 pt-5 bg-white relative z-10 -mt-2 rounded-t-3xl sm:rounded-none sm:mt-0 flex-grow pb-8 sm:pb-6 sm:overflow-y-auto custom-scrollbar">
       
-      <h2 class="text-xl sm:text-2xl font-black text-gray-800 leading-tight mb-2">{{ producto?.title }}</h2>
+      <h2 class="text-2xl sm:text-2xl font-black text-gray-800 leading-tight mb-2">{{ producto?.title }}</h2>
       
-      <div class="mb-4 pb-4 border-b border-gray-100">
+      <div class="mb-5 pb-5 border-b border-gray-100">
         @if (producto?.store_show_prices) {
           <span class="text-3xl font-black text-vitrina-green">{{ producto?.price | currency:'CLP':'symbol-narrow':'1.0-0' }}</span>
         } @else {
@@ -39,14 +37,14 @@
         </div>
       </div>
 
-      <div class="prose prose-sm text-gray-600">
+      <div class="prose prose-sm text-gray-600 mb-6">
         
         @if (esGachaPokemon() || esGachaMyL()) {
           
           @if (!codigoGachaGenerado) {
             <p class="text-sm text-gray-700 whitespace-pre-wrap mb-4 leading-relaxed">{{ producto.description }}</p>
             
-            <div class="p-4 sm:p-5 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-2xl border-2 border-yellow-400 text-center shadow-sm relative overflow-hidden">
+            <div class="p-5 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-2xl border-2 border-yellow-400 text-center shadow-sm relative overflow-hidden">
               <div class="absolute -right-4 -top-4 text-yellow-500/20">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-20 h-20"><path d="M12 2L9.5 8.5 3 11l6.5 2.5L12 20l2.5-6.5L21 11l-6.5-2.5L12 2z"/></svg>
               </div>
@@ -55,7 +53,7 @@
               <p class="text-xs text-orange-800/70 mb-3 font-bold relative z-10">Prueba tu suerte y genera tu código.</p>
               
               <button (click)="tirarGacha(esGachaPokemon() ? 'pokemon' : 'myl')" 
-                      class="relative z-10 w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-black uppercase tracking-wider py-3 px-6 rounded-xl transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+                      class="relative z-10 w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-black uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:active:scale-100"
                       [disabled]="isRolling">
                 {{ isRolling ? 'Generando...' : 'Tirar el Gachapón' }}
               </button>
@@ -67,12 +65,12 @@
               }
             </div>
           } @else {
-            <div class="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl border-2 border-green-500 text-center shadow-sm relative overflow-hidden">
+            <div class="p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl border-2 border-green-500 text-center shadow-sm relative overflow-hidden">
               <h4 class="font-black text-green-700 mb-1 text-xl relative z-10">🎉 ¡Felicidades! 🎉</h4>
               <p class="text-[10px] text-green-800/60 font-black uppercase tracking-widest mt-2 relative z-10">Tu código ganador es:</p>
               
-              <div class="bg-white/80 backdrop-blur-sm border-2 border-dashed border-green-400 rounded-xl py-2 my-2 relative z-10">
-                <p class="text-3xl sm:text-4xl font-black text-gray-900 tracking-[0.2em] select-all">{{ codigoGachaGenerado }}</p>
+              <div class="bg-white/80 backdrop-blur-sm border-2 border-dashed border-green-400 rounded-xl py-3 my-2 relative z-10">
+                <p class="text-4xl font-black text-gray-900 tracking-[0.2em] select-all">{{ codigoGachaGenerado }}</p>
               </div>
               
               <p class="text-xs text-green-800 font-bold mt-2 mb-3 leading-tight relative z-10">
@@ -80,7 +78,7 @@
               </p>
 
               <button (click)="tirarGacha(esGachaPokemon() ? 'pokemon' : 'myl')" 
-                      class="relative z-10 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-xl transition-all shadow-sm text-sm active:scale-95 disabled:opacity-50"
+                      class="relative z-10 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-sm active:scale-95 disabled:opacity-50"
                       [disabled]="isRolling">
                 {{ isRolling ? 'Generando...' : '🎰 Tirar de nuevo' }}
               </button>
@@ -92,42 +90,42 @@
           <p class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{{ producto.description }}</p>
         }
       </div>
-    </div>
 
-    <div class="p-3 sm:p-4 bg-gray-50 border-t border-gray-200 shrink-0">
-      
-      @switch (producto?.store_contact_preference) {
+      <div class="mt-8 border-t border-gray-100 pt-5">
         
-        @case ('whatsapp') {
-          <button (click)="contactarWhatsApp()" class="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-sm shadow-[#25D366]/30">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.124.553 4.195 1.604 6.012L.267 24l6.108-1.599A11.954 11.954 0 0012.031 24c6.648 0 12.031-5.383 12.031-12.031S18.679 0 12.031 0zM17.58 16.51c-.227.638-1.32.1.205-1.58.113-.016.388-.046.721-.19.333-.143 1.968-.971 2.274-1.083.305-.113.528-.17.75.17.222.339.86 1.083 1.054 1.309.194.227.388.256.721.4.334.144 2.124.783 2.656 1.15.228.156.38.234.436.363.055.13-.055.75-.407 1.408z"/></svg>
-            Contactar por WhatsApp
-          </button>
-        }
+        @switch (producto?.store_contact_preference) {
+          
+          @case ('whatsapp') {
+            <button (click)="contactarWhatsApp()" class="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-[#25D366]/30">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.124.553 4.195 1.604 6.012L.267 24l6.108-1.599A11.954 11.954 0 0012.031 24c6.648 0 12.031-5.383 12.031-12.031S18.679 0 12.031 0zM17.58 16.51c-.227.638-1.32.1.205-1.58.113-.016.388-.046.721-.19.333-.143 1.968-.971 2.274-1.083.305-.113.528-.17.75.17.222.339.86 1.083 1.054 1.309.194.227.388.256.721.4.334.144 2.124.783 2.656 1.15.228.156.38.234.436.363.055.13-.055.75-.407 1.408z"/></svg>
+              Contactar por WhatsApp
+            </button>
+          }
 
-        @case ('instagram') {
-          <button (click)="irAInstagram()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-90 text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-sm shadow-[#fd1d1d]/20">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            Ver en Instagram
-          </button>
-        }
+          @case ('instagram') {
+            <button (click)="irAInstagram()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-90 text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-[#fd1d1d]/20">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              Ver en Instagram
+            </button>
+          }
 
-        @case ('website') {
-          <button (click)="irASitioWeb()" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-sm shadow-blue-600/30">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 3v18M3.6 9h16.8M3.6 15h16.8" /></svg>
-            Comprar en Sitio Web
-          </button>
-        }
+          @case ('website') {
+            <button (click)="irASitioWeb()" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-600/30">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 3v18M3.6 9h16.8M3.6 15h16.8" /></svg>
+              Comprar en Sitio Web
+            </button>
+          }
 
-        @default {
-          <div class="text-center py-2">
-            <p class="text-sm text-gray-500 font-bold flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
-              Solo venta presencial
-            </p>
-          </div>
+          @default {
+            <div class="text-center py-2">
+              <p class="text-sm text-gray-500 font-bold flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
+                Solo venta presencial
+              </p>
+            </div>
+          }
         }
-      }
+      </div>
     </div>
   </div>
 </div>
