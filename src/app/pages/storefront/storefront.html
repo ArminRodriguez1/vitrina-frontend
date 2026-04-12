@@ -2,40 +2,64 @@
 
 <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
   
-  <header class="mb-8 relative rounded-3xl overflow-hidden bg-white shadow-sm border border-gray-100">
-    <div class="h-20 sm:h-32 bg-gradient-to-r from-vitrina-green to-green-700 opacity-90"></div>
+<header class="mb-8 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
     
+    <div class="h-24 sm:h-36 bg-gradient-to-r from-vitrina-green to-green-700 opacity-90 w-full relative"></div>
+
     <div class="px-4 sm:px-8 pb-6 sm:pb-8 relative">
-      <div class="-mt-10 sm:-mt-16 flex flex-col md:flex-row items-center md:items-end gap-3 sm:gap-6">
-        
-        <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-md shrink-0 bg-white">
-          <img [src]="tienda?.logo || 'https://via.placeholder.com/150'" class="w-full h-full object-cover">
-        </div>
-        
-        <div class="text-center md:text-left flex-grow mt-2 md:mt-0 md:pb-2">
-          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-800 tracking-tight">
-            {{ tienda?.name || 'Cargando comercio...' }}
-          </h1>
+
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6">
+
+        <div class="flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
           
-          <div class="mt-2 flex flex-col md:flex-row items-center justify-center md:justify-start gap-2 sm:gap-5 text-xs sm:text-sm text-gray-500 font-medium">
-            @if (tienda?.location) {
-              <p class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-vitrina-green"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
-                {{ tienda.location }}
-              </p>
-            }
+          <div class="-mt-12 sm:-mt-16 shrink-0 relative z-10 flex justify-center md:justify-start">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
+              <img [src]="tienda?.logo || 'https://via.placeholder.com/150'" class="w-full h-full object-cover">
+            </div>
+          </div>
+
+          <div class="text-center md:text-left md:pb-2">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-800 tracking-tight">
+              {{ tienda?.name || 'Cargando comercio...' }}
+            </h1>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center md:flex-col md:items-end gap-2.5 md:gap-3 md:pb-2">
+
+          @if (tienda?.location) {
+            <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-50 text-gray-600 text-xs sm:text-sm font-semibold rounded-xl border border-gray-200 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-vitrina-green">
+                <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" />
+              </svg>
+              {{ tienda?.location }}
+            </div>
+          }
+
+          <div class="flex flex-wrap justify-center md:justify-end gap-2.5">
             @if (tienda?.business_hours) {
-              <p class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-vitrina-green"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
-                {{ tienda.business_hours }}
-              </p>
+              <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-green-50/50 text-green-700 text-xs sm:text-sm font-bold rounded-xl border border-green-100 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ tienda?.business_hours }}
+              </div>
+            }
+
+            @if (tienda?.secondary_business_hours) {
+              <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-green-50/50 text-green-700 text-xs sm:text-sm font-bold rounded-xl border border-green-100 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ tienda?.secondary_business_hours }}
+              </div>
             }
           </div>
+
         </div>
       </div>
     </div>
   </header>
-
   <div class="flex justify-between items-end mb-4 px-1">
     <h2 class="text-lg sm:text-xl font-black text-gray-800 tracking-tight">Catálogo de la tienda</h2>
   </div>
