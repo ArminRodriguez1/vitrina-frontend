@@ -5,6 +5,7 @@ import { ProductCard } from '../../components/product-card/product-card';
 import { ContactModal } from '../../components/contact-modal/contact-modal';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,8 @@ import { ApiService } from '../../services/api';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('carouselContainer') carouselContainer!: ElementRef;
+  private pingInterval: any;
+  private readonly PING_INTERVAL_MS = 14 * 60 * 1000;
 
   banners = [
     {
@@ -39,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentSlideIndex = 0;
   autoScrollInterval: any;
   scrollTimer: any;
-  
+  isLoading: boolean = true;
   comercios: any[] = [];
   productosGlobales: any[] = [];
   categorias: any[] = [];
@@ -50,8 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   nextUrl: string | null = null;
   prevUrl: string | null = null;
   ordenPrecio: string = '';
-
   constructor(
+    private http: HttpClient,
     private apiService: ApiService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
@@ -60,14 +63,39 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // 1. ELIMINAMOS EL THROW ERROR
   ngOnDestroy(): void {
+    if (this.pingInterval) {
+      clearInterval(this.pingInterval);
+    }
     if (isPlatformBrowser(this.platformId)) {
       this.clearAutoScroll();
     }
   }
+  private iniciarPingConstant() {
+    // Hacemos el ping inicial 
+    this.hacerPing();
+
+    // Configuramos el intervalo para que se repita
+    this.pingInterval = setInterval(() => {
+      this.hacerPing();
+    }, this.PING_INTERVAL_MS);
+  }
+  private hacerPing() {
+    const urlPing = this.apiService['baseUrl'] + '/ping/';
+
+    this.http.get(urlPing, { responseType: 'text' }).subscribe({
+      next: () => {
+        console.log('✅ Backend despierto - Ping completado:', new Date().toLocaleTimeString());
+      },
+      error: (err: any) => {
+        console.error('❌ Error al hacer ping al backend:', err);
+      }
+    });
+  }
 
   ngOnInit() {
+    this.iniciarPingConstant();
     this.cargarTiendas();
-    this.cargarCategorias(); // Añadido para que aparezcan tus píldoras de filtros
+    this.cargarCategorias(); 
     this.cargarProductos();
     
     this.route.queryParams.subscribe(params => {
@@ -133,14 +161,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   cargarProductos() {
+    this.isLoading = true;
     this.apiService.getProductos(this.terminoBusqueda, this.categoriaActiva, this.ordenPrecio).subscribe({
       next: (data: any) => {
         this.productosGlobales = data.results ? data.results : data;
+        this.isLoading = false;
         this.nextUrl = data.next || null;
         this.prevUrl = data.previous || null;
         this.cdr.detectChanges();
       },
-      error: (e) => console.error(e)
+      error: (e) => this.isLoading = false
     });
   }
 

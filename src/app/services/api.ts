@@ -39,6 +39,10 @@ getProductos(search: string = '', category: string = '', ordering: string = ''):
     return this.http.get<any>(url);
   }
 
+  pingBackend():  Observable<any>{
+    return this.http.get(`${this.baseUrl}/ping/`);
+  }
+
   // --- MÉTRICAS DEL DASHBOARD ---
   registrarVistaProducto(productoId: number): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/products/${productoId}/add_view/`, {});

@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Estilos para escritorio por defecto */
+.carousel-item {
+  width: 33.33%; /* Ejemplo de 3 imágenes a la vez en escritorio */
+}
+
+/* Estilos para pantallas móviles (ancho <= 768px) */
+@media (max-width: 768px) {
+  .carousel-item {
+    width: 80%; /* Ejemplo de una imagen casi completa y borde de la siguiente en móvil */
+    flex: 0 0 80%; /* Si usas Flexbox, esto es mejor */
+  }
+}
+
 body {
   background-color: #f3f4f6;
   margin: 0;
